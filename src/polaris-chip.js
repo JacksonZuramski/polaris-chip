@@ -23,12 +23,13 @@ export class PolarisChip extends LitElement {
   // see the very bottom of the file for where this is actually implemented
   static get tag() {
     return 'polaris-chip';
-  }
+  } 
   // constructor establishes defaults for the class
   constructor() {
     super();
     // a variable on this object called title
-    this.title = 'My boilerplate';
+    this.title = 'Chip Default';
+    this.link = "#";
   }
 
   // CSS styles are scoped JUST to this element. This uses a technology called
@@ -46,7 +47,20 @@ export class PolarisChip extends LitElement {
     */
       :host {
         /* Always make sure that your element has a default way of being displayed */
-        display: block;
+        display: inline-flex;
+      }
+
+      span {
+        background-color: orange;
+        color: black;
+        font-size: 24px;
+        padding: 16px;
+        margin: 8px;
+      }
+
+      span:hover {
+        background-color: grey;
+        border: 1px solid black;
       }
     `;
   }
@@ -63,14 +77,14 @@ export class PolarisChip extends LitElement {
     // there is a valid HTML template that is displayed on screen. It's important
     // to keep in mind that any broken HTML tags or JS variables here can cause
     // your element to not render so color coding and syntax checking with console
-    // open in your browser is critical!
+    // open in your browser is critical! 
 
     // ` is a special character that allows JS to print variables in it using
     // the ${} syntax, any variable can happen between those tags. Shown below
     // it is going to print the title of the element. The magic of Lit is that
     // when title is changed (even by inspecting the document and hacking the value)
     // it will automatically update what is displayed and do so incredibly quickly
-    return html`<span>${this.title}</span>`;
+    return html`<a href="${this.link}" rel="noopener noreferrer"><span>${this.title}</span></a>`;
   }
 
   // LitElement uses the properties call to do the following:
@@ -82,6 +96,8 @@ export class PolarisChip extends LitElement {
     return {
       // this is a String. Array, Object, Number, Boolean are other valid values here
       title: { type: String },
+
+      link: { type: String },
     };
   }
 }
