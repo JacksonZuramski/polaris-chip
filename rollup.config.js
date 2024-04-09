@@ -1,3 +1,4 @@
+import copy from 'rollup-plugin-copy';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import html from '@web/rollup-plugin-html';
@@ -5,6 +6,7 @@ import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import { terser } from 'rollup-plugin-terser';
 import { generateSW } from 'rollup-plugin-workbox';
 import path from 'path';
+
 
 export default {
   input: 'index.html',
@@ -24,6 +26,18 @@ export default {
       injectServiceWorker: true,
       serviceWorkerPath: 'dist/sw.js',
     }),
+    copy({
+      targets: [
+        {
+          src: 'node_modules/@lrnwebcomponents/rpg-character/lib',
+          dest: 'dist',
+        },
+        {
+          src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs',
+          dest: 'dist',
+        },
+      ],
+    }),
     /** Resolve bare module imports */
     nodeResolve(),
     /** Minify JS */
@@ -31,6 +45,13 @@ export default {
     /** Bundle assets references via import.meta.url */
     importMetaAssets(),
     /** Compile JS to a lower language target */
+    copy({
+      targets: [
+        { src: 'src/index.html', dest: 'dist/public' },
+        { src: ['assets/fonts/arial.woff', 'assets/fonts/arial.woff2'], dest: 'dist/public/fonts' },
+        { src: 'assets/images/**/*', dest: 'dist/public/images' }
+      ]
+    }),
     babel({
       babelHelpers: 'bundled',
       presets: [
